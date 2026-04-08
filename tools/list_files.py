@@ -37,7 +37,7 @@ class ListFilesInput(BaseModel):
         return v
     
 
-@tool("list_files", ListFilesInput)
+@tool("list_files", args_schema =ListFilesInput)
 def list_files(
     source: str,
     recursive: bool = False,
@@ -54,7 +54,7 @@ def list_files(
 
     src = Path(source).resolve()
     
-    if not Path(src).exists:
+    if not Path(src).exists():
         raise FileNotFoundError(f"{src} doesn't exists")
     if not Path(src).is_dir():
         raise ValueError(f"{src} is not a dir")

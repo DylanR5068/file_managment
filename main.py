@@ -1,25 +1,20 @@
-from typing import Dict, TypedDict
-from langgraph.graph import StateGraph
+from graph.graph import app
 
-class State(TypedDict):
-    name : str
-    message : str
 
-def compliment_node(state : State) -> State:
+result = app.invoke({
+    "messages": [],
+    "directory": "/Users/Dylan/Documents/desordenados",
+    "file_list": "",
+    "metadata": [],
+    "errors": []
+})
 
-    state['message'] = state['name'] + ' you are doing an excellent job!!'
 
-    return state
+for file in result['metadata']:
+    print(file)
 
-graph = StateGraph(State)
+print(result['file_list'])
+print(f"archivos procesados {len(result['metadata'])}")
+print(f"errores: {result['errors']}")
 
-graph.add_node("greeder", compliment_node)
 
-graph.set_entry_point("greeder")
-graph.set_finish_point("greeder")
-
-app = graph.compile()
-
-result = app.invoke({'name': 'bob'})
-
-print(result['message'])

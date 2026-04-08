@@ -19,7 +19,7 @@ class ReadMetadataInput(BaseModel):
             raise ValueError(f"{v} must be absolute")
         return v
     
-@tool("read_metada", ReadMetadataInput)
+@tool("read_metadata", args_schema= ReadMetadataInput)
 def read_metadata(source: str) -> str:
     """read metadata of a file without opening it
     
@@ -29,10 +29,10 @@ def read_metadata(source: str) -> str:
     path = Path(source).resolve()
 
     #validating path
-    if Path(path).exists:
+    if not Path(path).exists():
         raise FileNotFoundError(f"{path} doesn't exists")
     
-    if not Path(path).is_file:
+    if not Path(path).is_file():
         raise ValueError(f"{path} doesn't a file")
     
     stat = path.stat()
